@@ -1,0 +1,2 @@
+keytool -export -keystore samlKeystore.jks -alias pac4j-demo -file samlKeystore-sp-private-cert.crt
+openssl x509 -inform der -in  samlKeystore-sp-private-cert.crt -out samlKeystore-sp-public-certificate.pem

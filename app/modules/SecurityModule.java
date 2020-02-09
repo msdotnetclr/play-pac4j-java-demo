@@ -84,6 +84,16 @@ public class SecurityModule extends AbstractModule {
     }
 
     @Provides
+    protected SAML2Client provideSaml2Client() {
+        final SAML2ClientConfiguration cfg = new SAML2ClientConfiguration("resource:samlKeystore.jks",
+                "pac4j-demo-passwd", "pac4j-demo-passwd", "resource:samltest.id-providers.xml");
+        cfg.setMaximumAuthenticationLifetime(3600);
+        cfg.setServiceProviderEntityId("https://app.dstorm.co/bh/fk/dev");
+        cfg.setServiceProviderMetadataPath(new File("target", "sp-metadata.xml").getAbsolutePath());
+        return new SAML2Client(cfg);
+    }
+
+    @Provides
     protected FacebookClient provideFacebookClient() {
         final String fbId = configuration.getString("fbId");
         final String fbSecret = configuration.getString("fbSecret");
@@ -118,16 +128,6 @@ public class SecurityModule extends AbstractModule {
         final CasConfiguration casConfiguration = new CasConfiguration("https://casserverpac4j.herokuapp.com/login");
         //final CasConfiguration casConfiguration = new CasConfiguration("http://localhost:8888/cas/login");
         return new CasClient(casConfiguration);
-    }
-
-    @Provides
-    protected SAML2Client provideSaml2Client() {
-        final SAML2ClientConfiguration cfg = new SAML2ClientConfiguration("resource:samlKeystore.jks",
-                "pac4j-demo-passwd", "pac4j-demo-passwd", "resource:openidp-feide.xml");
-        cfg.setMaximumAuthenticationLifetime(3600);
-        cfg.setServiceProviderEntityId("urn:mace:saml:pac4j.org");
-        cfg.setServiceProviderMetadataPath(new File("target", "sp-metadata.xml").getAbsolutePath());
-        return new SAML2Client(cfg);
     }
 
     @Provides
