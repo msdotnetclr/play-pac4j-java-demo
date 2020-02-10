@@ -85,10 +85,12 @@ public class SecurityModule extends AbstractModule {
 
     @Provides
     protected SAML2Client provideSaml2Client() {
-        final SAML2ClientConfiguration cfg = new SAML2ClientConfiguration("resource:samlKeystore.jks",
-                "pac4j-demo-passwd", "pac4j-demo-passwd", "resource:samltest.id-providers.xml");
-        cfg.setMaximumAuthenticationLifetime(3600);
-        cfg.setServiceProviderEntityId("https://app.dstorm.co/bh/fk/dev");
+        final SAML2ClientConfiguration cfg = new SAML2ClientConfiguration(configuration.getString("saml2.keystore.path"),
+                configuration.getString("saml2.keystore.password"),
+                configuration.getString("saml2.privatekey.password"),
+                configuration.getString("saml2.idp_metadata_path"));
+        cfg.setMaximumAuthenticationLifetime(configuration.getInt("saml2.max_auth_lifetime"));
+        cfg.setServiceProviderEntityId(configuration.getString("saml2.sp.entityid"));
         cfg.setServiceProviderMetadataPath(new File("target", "sp-metadata.xml").getAbsolutePath());
         return new SAML2Client(cfg);
     }
