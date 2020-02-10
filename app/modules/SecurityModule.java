@@ -88,11 +88,12 @@ public class SecurityModule extends AbstractModule {
         final SAML2ClientConfiguration cfg = new SAML2ClientConfiguration(configuration.getString("saml2.keystore.path"),
                 configuration.getString("saml2.keystore.password"),
                 configuration.getString("saml2.privatekey.password"),
-                configuration.getString("saml2.idp_metadata_path"));
+                configuration.getString("saml2.idp.metadata_path"));
         cfg.setMaximumAuthenticationLifetime(configuration.getInt("saml2.max_auth_lifetime"));
         cfg.setServiceProviderEntityId(configuration.getString("saml2.sp.entityid"));
         cfg.setServiceProviderMetadataPath(new File("target", "sp-metadata.xml").getAbsolutePath());
         cfg.setForceServiceProviderMetadataGeneration(configuration.getBoolean("saml2.sp.force_metadata_generation"));
+        cfg.setAuthnRequestSigned(configuration.getBoolean("saml2.sp.authnrequest_signed"));
         return new SAML2Client(cfg);
     }
 
