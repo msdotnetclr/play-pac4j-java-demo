@@ -92,6 +92,7 @@ public class SecurityModule extends AbstractModule {
         cfg.setMaximumAuthenticationLifetime(configuration.getInt("saml2.max_auth_lifetime"));
         cfg.setServiceProviderEntityId(configuration.getString("saml2.sp.entityid"));
         cfg.setServiceProviderMetadataPath(new File("target", "sp-metadata.xml").getAbsolutePath());
+        cfg.setForceServiceProviderMetadataGeneration(configuration.getBoolean("saml2.sp.force_metadata_generation"));
         return new SAML2Client(cfg);
     }
 
